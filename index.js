@@ -6,10 +6,15 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// 🔑 Ta clé TMDb v3
+// 🔑 Ta clé TMDb v3 (celle que tu m'as donnée)
 const TMDB_API_KEY = "be1e4bf5814bbd04fa49aa2564757c40";
 
-// 🟦 Route : récupérer les infos d’un film par ID
+// 🟩 Route d'accueil (évite "Cannot GET /")
+app.get("/", (req, res) => {
+    res.send("🚀 CinéStream API est en ligne !");
+});
+
+// 🟦 Route : infos d’un film par ID
 app.get("/tmdb/movie/:id", async (req, res) => {
     const movieId = req.params.id;
 
@@ -45,7 +50,8 @@ app.get("/tmdb/search/:query", async (req, res) => {
     }
 });
 
-// 🟩 Serveur en ligne
-app.listen(3000, () => {
-    console.log("Serveur CinéStream en ligne sur le port 3000");
+// 🟩 Lancer le serveur (Render utilise process.env.PORT)
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`🚀 Serveur CinéStream en ligne sur le port ${PORT}`);
 });
